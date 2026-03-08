@@ -14,8 +14,10 @@ Cleanup code retries on failure but does not distinguish "transient error" from 
 
 E2E cleanup retries `kind delete cluster`, but if the cluster was already removed (race, previous partial cleanup), the command returns a non-zero exit code with `unknown cluster`.
 
+Source: [`hack/testing/e2e-common.sh` L165-182](https://github.com/kubernetes-sigs/kueue/blob/main/hack/testing/e2e-common.sh#L165-L182) (`cluster_cleanup` function)
+
 ```bash
-# hack/testing/e2e-common.sh — BEFORE
+# BEFORE
 for attempt in $(seq 1 "$max_retries"); do
     if $KIND delete cluster --name "$cluster_name"; then
         return 0
@@ -41,7 +43,7 @@ The original code retries on failure but never checks **why** it failed — an a
          fi
 ```
 
-[Failing run](https://prow.k8s.io/view/gs/kubernetes-ci-logs/logs/periodic-kueue-test-e2e-main-1-34/2024217633649332224) · [Passing run](https://prow.k8s.io/view/gs/kubernetes-ci-logs/pr-logs/pull/kubernetes-sigs_kueue/9583/pull-kueue-test-e2e-release-0-16-1-34/2027406963704336384)
+[PR diff](https://github.com/kubernetes-sigs/kueue/pull/9577/files) · [Failing run](https://prow.k8s.io/view/gs/kubernetes-ci-logs/logs/periodic-kueue-test-e2e-main-1-34/2024217633649332224) · [Passing run](https://prow.k8s.io/view/gs/kubernetes-ci-logs/pr-logs/pull/kubernetes-sigs_kueue/9583/pull-kueue-test-e2e-release-0-16-1-34/2027406963704336384)
 
 ## Related issues
 

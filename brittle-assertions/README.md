@@ -12,8 +12,10 @@ Both cases share the same root cause: assertions are calibrated to theoretical o
 
 Scheduler integration test asserts a workload is processed at most **2 times** before settling as inadmissible. Under CI load a CQ-creation requeue can trigger a third attempt.
 
+Source: [`test/integration/singlecluster/scheduler/scheduler_test.go` L978-979](https://github.com/kubernetes-sigs/kueue/blob/main/test/integration/singlecluster/scheduler/scheduler_test.go#L978-L979) (2 occurrences: L979, L1002)
+
 ```go
-// test/integration/singlecluster/scheduler/scheduler_test.go — BEFORE
+// BEFORE
 util.ExpectPendingAdmissionAttempts(2, "<=")
 ```
 
@@ -22,9 +24,7 @@ util.ExpectPendingAdmissionAttempts(2, "<=")
 +  util.ExpectPendingAdmissionAttempts(3, "<=")
 ```
 
-Two occurrences in the same test (pre- and post-CQ-update assertions).
-
-[Failing run](https://prow.k8s.io/view/gs/kubernetes-ci-logs/logs/periodic-kueue-test-integration-release-0-15/2027016273371598848) · [Passing run](https://prow.k8s.io/view/gs/kubernetes-ci-logs/pr-logs/pull/kubernetes-sigs_kueue/9564/pull-kueue-test-integration-baseline-release-0-15/2027409767902744576)
+[PR diff](https://github.com/kubernetes-sigs/kueue/pull/9554/files) · [Failing run](https://prow.k8s.io/view/gs/kubernetes-ci-logs/logs/periodic-kueue-test-integration-release-0-15/2027016273371598848) · [Passing run](https://prow.k8s.io/view/gs/kubernetes-ci-logs/pr-logs/pull/kubernetes-sigs_kueue/9564/pull-kueue-test-integration-baseline-release-0-15/2027409767902744576)
 
 ### [#9581](https://github.com/kubernetes-sigs/kueue/pull/9581) — Performance baseline threshold too narrow
 
@@ -32,8 +32,10 @@ Two occurrences in the same test (pre- and post-CQ-update assertions).
 
 Scheduling performance test uses a `+5% + 6s` margin over the measured average for the `small` workload class. Real variance exceeds this.
 
+Source: [`test/performance/scheduler/configs/baseline/rangespec.yaml` L22-23](https://github.com/kubernetes-sigs/kueue/blob/main/test/performance/scheduler/configs/baseline/rangespec.yaml#L22-L23)
+
 ```yaml
-# test/performance/scheduler/configs/baseline/rangespec.yaml — BEFORE
+# BEFORE
 # Average value 215468 (+/- 2%), setting at +5% + 6s accounting for observed failures
 small: 233_000
 ```
@@ -45,7 +47,7 @@ small: 233_000
 +  small: 260_000
 ```
 
-[Failing run](https://prow.k8s.io/view/gs/kubernetes-ci-logs/pr-logs/pull/kubernetes-sigs_kueue/9340/pull-kueue-test-scheduling-perf-main/2024397273403756544) · [Passing run](https://prow.k8s.io/view/gs/kubernetes-ci-logs/pr-logs/pull/kubernetes-sigs_kueue/9585/pull-kueue-test-scheduling-perf-release-0-16/2027417034228240384)
+[PR diff](https://github.com/kubernetes-sigs/kueue/pull/9581/files) · [Failing run](https://prow.k8s.io/view/gs/kubernetes-ci-logs/pr-logs/pull/kubernetes-sigs_kueue/9340/pull-kueue-test-scheduling-perf-main/2024397273403756544) · [Passing run](https://prow.k8s.io/view/gs/kubernetes-ci-logs/pr-logs/pull/kubernetes-sigs_kueue/9585/pull-kueue-test-scheduling-perf-release-0-16/2027417034228240384)
 
 ## Related issues
 
