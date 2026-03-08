@@ -47,8 +47,12 @@ The original code retries on failure but never checks **why** it failed — an a
 
 ## Recurrence
 
+- [#9604](https://github.com/kubernetes-sigs/kueue/pull/9604) (merged) — same script (`e2e-common.sh`) swallowed `kind create cluster` errors and caused kubeconfig lock race during concurrent cleanup; tracked since [#8983](https://github.com/kubernetes-sigs/kueue/issues/8983)
 - [#9582](https://github.com/kubernetes-sigs/kueue/issues/9582) (open) — populator cluster deletion intermittently fails
 - [#9597](https://github.com/kubernetes-sigs/kueue/pull/9597) (open, WIP) — cleanup/helper reuse convergence
+
+#9577 and #9604 are patches to the same file for the same class of defect: lifecycle scripts that retry on failure without inspecting whether the failure is terminal. The intervention is shared cleanup hardening, not more one-off patches.
+
 
 ## Fix direction
 

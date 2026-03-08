@@ -60,9 +60,13 @@ Source: [`test/e2e/multikueue/tas_test.go`](https://github.com/kubernetes-sigs/k
 
 ## Recurrence
 
+- [#9653](https://github.com/kubernetes-sigs/kueue/pull/9653) (merged) — same webhook-cache-lag failure in MPIJob tests; maintainer suggested generalizing the retry helper from #9571, resulting in shared `MustCreateWithRetry` in `test/util/util.go`
 - [#9301](https://github.com/kubernetes-sigs/kueue/issues/9301) (open) — conversion webhook EOF during setup
 - [#9523](https://github.com/kubernetes-sigs/kueue/issues/9523) (open) — 300s insufficient for KubeRay worker visibility
 - [#9609](https://github.com/kubernetes-sigs/kueue/issues/9609) (closed) — historical timing flake
+
+These are not symptomatically similar one-offs. #9571 and #9653 failed in different test suites (TrainJob, MPIJob) but pointed to the same intervention: a shared retry-aware create utility. That utility now exists.
+
 
 ## Fix direction
 

@@ -51,7 +51,12 @@ small: 233_000
 
 ## Recurrence
 
-No open issues tracked yet. The two PRs above were filed independently for different test suites, confirming the pattern is not test-specific.
+- [#9718](https://github.com/kubernetes-sigs/kueue/pull/9718) (merged) — sticky workload metric assertion assumed theoretical steady state; actual behavior differed after asynchronous requeueing
+- [#9531](https://github.com/kubernetes-sigs/kueue/pull/9531) (merged) — requeue inadmissible test batch period too short under CI load
+- [#9485](https://github.com/kubernetes-sigs/kueue/pull/9485) (merged) — e2e metrics assertion depended on exact scheduling-cycle ordering; PR references [#4821](https://github.com/kubernetes-sigs/kueue/issues/4821) which flagged the same suite as "brittle"
+
+Five independent PRs (#9554, #9581, #9718, #9531, #9485), four different authors, four different test suites — each independently widened a bound or relaxed an assumption. They converge on the same intervention: calibrate assertions to observed CI behavior, not theoretical ideals.
+
 
 ## Fix direction
 
