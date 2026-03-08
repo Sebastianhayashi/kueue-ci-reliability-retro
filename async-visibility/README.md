@@ -14,7 +14,7 @@ Both cases share the same root cause: test code assumes an API-server write is i
 
 Test creates `TrainingRuntime` then immediately creates `TrainJob` — webhook cache hasn't indexed the runtime yet.
 
-Source: [`test/e2e/tas/trainjob_test.go` L117-118](https://github.com/kubernetes-sigs/kueue/blob/main/test/e2e/tas/trainjob_test.go#L117-L118) (3 occurrences: L117-118, L189-190, L260-261)
+Source: [`test/e2e/tas/trainjob_test.go`](https://github.com/kubernetes-sigs/kueue/blob/main/test/e2e/tas/trainjob_test.go) around L117 (3 occurrences) — see [PR diff](https://github.com/kubernetes-sigs/kueue/pull/9571/files) for exact change
 
 ```go
 // BEFORE
@@ -43,7 +43,7 @@ util.MustCreate(ctx, k8sClient, trainjob)   // webhook cache miss → rejected
 
 MultiKueue TAS workload completes on worker but `WorkloadFinished` doesn't propagate to manager within `LongTimeout`. The signal must traverse worker → adapter → manager — a multi-hop path.
 
-Source: [`test/e2e/multikueue/tas_test.go` L296](https://github.com/kubernetes-sigs/kueue/blob/main/test/e2e/multikueue/tas_test.go#L296) (2 occurrences: L296, L371)
+Source: [`test/e2e/multikueue/tas_test.go`](https://github.com/kubernetes-sigs/kueue/blob/main/test/e2e/multikueue/tas_test.go) around L296 (2 occurrences) — see [PR diff](https://github.com/kubernetes-sigs/kueue/pull/9572/files) for exact change
 
 ```go
 // BEFORE
@@ -58,7 +58,7 @@ Source: [`test/e2e/multikueue/tas_test.go` L296](https://github.com/kubernetes-s
 
 [PR diff](https://github.com/kubernetes-sigs/kueue/pull/9572/files) · [Failing run](https://prow.k8s.io/view/gs/kubernetes-ci-logs/logs/periodic-kueue-test-e2e-multikueue-release-0-16/2026170270561079296) · [Passing run](https://prow.k8s.io/view/gs/kubernetes-ci-logs/pr-logs/pull/kubernetes-sigs_kueue/9584/pull-kueue-test-e2e-multikueue-release-0-16/2027423858969022464)
 
-## Related issues
+## Recurrence
 
 - [#9301](https://github.com/kubernetes-sigs/kueue/issues/9301) (open) — conversion webhook EOF during setup
 - [#9523](https://github.com/kubernetes-sigs/kueue/issues/9523) (open) — 300s insufficient for KubeRay worker visibility

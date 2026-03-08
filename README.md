@@ -8,3 +8,6 @@ Recurring flaky-test patterns in [kubernetes-sigs/kueue](https://github.com/kube
 | [`brittle-assertions`](brittle-assertions/) | Converts normal CI variance into test failures | [#9554](https://github.com/kubernetes-sigs/kueue/pull/9554), [#9581](https://github.com/kubernetes-sigs/kueue/pull/9581) |
 | [`cleanup-lifecycle`](cleanup-lifecycle/) | Cleanup paths lack idempotent terminal-state handling | [#9577](https://github.com/kubernetes-sigs/kueue/pull/9577) |
 
+Inclusion rule: a pattern enters this repo only when it has at least one merged fix **and** at least one other issue or PR showing the same root cause recurring independently.
+
+This repo is not a flake tracker, not a CI dashboard, and not a general test-improvement backlog.

@@ -14,7 +14,7 @@ Cleanup code retries on failure but does not distinguish "transient error" from 
 
 E2E cleanup retries `kind delete cluster`, but if the cluster was already removed (race, previous partial cleanup), the command returns a non-zero exit code with `unknown cluster`.
 
-Source: [`hack/testing/e2e-common.sh` L165-182](https://github.com/kubernetes-sigs/kueue/blob/main/hack/testing/e2e-common.sh#L165-L182) (`cluster_cleanup` function)
+Source: [`hack/testing/e2e-common.sh`](https://github.com/kubernetes-sigs/kueue/blob/main/hack/testing/e2e-common.sh) around L165 (`cluster_cleanup` function) — see [PR diff](https://github.com/kubernetes-sigs/kueue/pull/9577/files) for exact change
 
 ```bash
 # BEFORE
@@ -45,7 +45,7 @@ The original code retries on failure but never checks **why** it failed — an a
 
 [PR diff](https://github.com/kubernetes-sigs/kueue/pull/9577/files) · [Failing run](https://prow.k8s.io/view/gs/kubernetes-ci-logs/logs/periodic-kueue-test-e2e-main-1-34/2024217633649332224) · [Passing run](https://prow.k8s.io/view/gs/kubernetes-ci-logs/pr-logs/pull/kubernetes-sigs_kueue/9583/pull-kueue-test-e2e-release-0-16-1-34/2027406963704336384)
 
-## Related issues
+## Recurrence
 
 - [#9582](https://github.com/kubernetes-sigs/kueue/issues/9582) (open) — populator cluster deletion intermittently fails
 - [#9597](https://github.com/kubernetes-sigs/kueue/pull/9597) (open, WIP) — cleanup/helper reuse convergence
