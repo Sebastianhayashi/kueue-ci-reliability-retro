@@ -2,11 +2,13 @@
 
 Tests fail because cleanup routines are not idempotent — they treat already-completed states as errors.
 
-**Logic**: Cleanup can run after partial or full teardown → hitting a terminal state (e.g. cluster already deleted) should be success, not failure.
+## Pattern
 
----
+Cleanup code retries on failure but does not distinguish "transient error" from "already at desired end state". When a resource is already gone, the cleanup should succeed, not retry until max attempts.
 
-## [#9577](https://github.com/kubernetes-sigs/kueue/pull/9577) — `kind delete cluster` fails on already-deleted cluster
+## Cases
+
+### [#9577](https://github.com/kubernetes-sigs/kueue/pull/9577) — `kind delete cluster` fails on already-deleted cluster
 
 `ERROR: unknown cluster "kind"`
 
@@ -41,14 +43,18 @@ The original code retries on failure but never checks **why** it failed — an a
 
 [Failing run](https://prow.k8s.io/view/gs/kubernetes-ci-logs/logs/periodic-kueue-test-e2e-main-1-34/2024217633649332224) · [Passing run](https://prow.k8s.io/view/gs/kubernetes-ci-logs/pr-logs/pull/kubernetes-sigs_kueue/9583/pull-kueue-test-e2e-release-0-16-1-34/2027406963704336384)
 
----
-
-## Systematic evidence
+## Related issues
 
 - [#9582](https://github.com/kubernetes-sigs/kueue/issues/9582) (open) — populator cluster deletion intermittently fails
 - [#9597](https://github.com/kubernetes-sigs/kueue/pull/9597) (open, WIP) — cleanup/helper reuse convergence
 
-## Recommendations
+## Fix direction
+
+**How to recognize this family**: the test fails in `AfterEach` / `AfterAll` / cleanup helpers with an error that describes an already-absent resource.
 
 1. **Idempotent cleanup** — cleanup functions should treat "already gone" as success. Check error output for terminal-state indicators before retrying.
 2. **Guard shared teardown** — when multiple test suites share teardown helpers, each invocation should be safe to run regardless of prior state.
+
+## Scope
+
+This family covers test teardown and cleanup helpers. Production garbage collection or finalizer behavior is out of scope.
